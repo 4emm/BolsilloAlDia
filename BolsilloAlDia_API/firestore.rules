@@ -1,0 +1,15 @@
+rules_version = '2';
+
+// BolsilloAlDía usa el Admin SDK (que se salta las reglas) y la app móvil
+// nunca habla directamente con Firebase. Por eso se bloquea el acceso directo
+// a usuarios/** (perfil, categorías, metas, movimientos e historial).
+//
+// Las demás colecciones se dejan como estaban porque este proyecto Firebase
+// también lo usan otras apps que sí acceden directamente desde el cliente.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{collection}/{document=**} {
+      allow read, write: if collection != 'usuarios';
+    }
+  }
+}

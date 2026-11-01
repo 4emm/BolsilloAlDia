@@ -1,0 +1,44 @@
+{
+  "expo": {
+    "name": "BolsilloAlDía",
+    "slug": "bolsillo-al-dia",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "bolsilloaldia",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "bundleIdentifier": "co.edu.tdea.bolsilloaldia",
+      "icon": "./assets/expo.icon"
+    },
+    "android": {
+      "package": "co.edu.tdea.bolsilloaldia",
+      "adaptiveIcon": {
+        "backgroundColor": "#D9F2EA",
+        "foregroundImage": "./assets/images/android-icon-foreground.png",
+        "backgroundImage": "./assets/images/android-icon-background.png",
+        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#0B7A5C",
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 76
+        }
+      ],
+      "expo-sqlite",
+      "expo-secure-store",
+      "expo-image",
+      "expo-web-browser"
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    }
+  }
+}
