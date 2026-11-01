@@ -50,52 +50,54 @@ export default function SignInScreen() {
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={styles.flex}>
         <ScrollView
-          contentContainerStyle={styles.form}
+          contentContainerStyle={styles.scroll}
           keyboardShouldPersistTaps="handled">
-          <View style={styles.brand}>
-            <ThemedText type="title" style={styles.brandTitle} accessibilityRole="header">
-              BolsilloAlDía
-            </ThemedText>
-            <ThemedText themeColor="textSecondary">
-              Anota tus gastos en el momento, aunque no tengas señal. Se sincronizan solos cuando vuelve la conexión.
-            </ThemedText>
-          </View>
-          <TextField
-            label="Correo"
-            value={email}
-            onChangeText={setEmail}
-            error={errors.email}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            autoComplete="email"
-            autoCorrect={false}
-            textContentType="emailAddress"
-            returnKeyType="next"
-            onSubmitEditing={() => passwordRef.current?.focus()}
-          />
-          <TextField
-            ref={passwordRef}
-            label="Contraseña"
-            value={password}
-            onChangeText={setPassword}
-            error={errors.password}
-            secureTextEntry
-            autoComplete="current-password"
-            textContentType="password"
-            returnKeyType="go"
-            onSubmitEditing={submit}
-          />
-          {formError ? (
-            <ThemedText accessibilityRole="alert" style={{ color: theme.danger }}>
-              {formError}
-            </ThemedText>
-          ) : null}
-          <Button title="Iniciar sesión" onPress={submit} loading={loading} />
-          <View style={styles.footer}>
-            <ThemedText themeColor="textSecondary">¿No tienes cuenta?</ThemedText>
-            <Link href="/sign-up" accessibilityRole="link">
-              <ThemedText type="link">Regístrate</ThemedText>
-            </Link>
+          <View style={styles.form}>
+            <View style={styles.brand}>
+              <ThemedText type="title" style={styles.brandTitle} accessibilityRole="header">
+                BolsilloAlDía
+              </ThemedText>
+              <ThemedText themeColor="textSecondary">
+                Anota tus gastos en el momento, aunque no tengas señal. Se sincronizan solos cuando vuelve la conexión.
+              </ThemedText>
+            </View>
+            <TextField
+              label="Correo"
+              value={email}
+              onChangeText={setEmail}
+              error={errors.email}
+              keyboardType="email-address"
+              autoCapitalize="none"
+              autoComplete="email"
+              autoCorrect={false}
+              textContentType="emailAddress"
+              returnKeyType="next"
+              onSubmitEditing={() => passwordRef.current?.focus()}
+            />
+            <TextField
+              ref={passwordRef}
+              label="Contraseña"
+              value={password}
+              onChangeText={setPassword}
+              error={errors.password}
+              secureTextEntry
+              autoComplete="current-password"
+              textContentType="password"
+              returnKeyType="go"
+              onSubmitEditing={submit}
+            />
+            {formError ? (
+              <ThemedText accessibilityRole="alert" style={{ color: theme.danger }}>
+                {formError}
+              </ThemedText>
+            ) : null}
+            <Button title="Iniciar sesión" onPress={submit} loading={loading} />
+            <View style={styles.footer}>
+              <ThemedText themeColor="textSecondary">¿No tienes cuenta?</ThemedText>
+              <Link href="/sign-up" accessibilityRole="link">
+                <ThemedText type="link">Regístrate</ThemedText>
+              </Link>
+            </View>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -105,11 +107,16 @@ export default function SignInScreen() {
 
 const styles = StyleSheet.create({
   flex: { flex: 1 },
-  form: {
+  scroll: {
     flexGrow: 1,
     justifyContent: 'center',
-    gap: Spacing.three,
     padding: Spacing.three,
+  },
+  form: {
+    width: '100%',
+    maxWidth: 440,
+    alignSelf: 'center',
+    gap: Spacing.three,
   },
   brand: { gap: Spacing.two, marginBottom: Spacing.three },
   brandTitle: { fontSize: 36, lineHeight: 42 },

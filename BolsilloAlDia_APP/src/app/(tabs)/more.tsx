@@ -6,7 +6,7 @@ import { Screen } from '@/components/screen';
 import { ThemedText } from '@/components/themed-text';
 import { Card } from '@/components/ui';
 import { Radius, Spacing } from '@/constants/theme';
-import { API_URL } from '@/config/env';
+import { API_URL_LABEL } from '@/config/env';
 import { useAlerts } from '@/hooks/use-finance';
 import { useTheme } from '@/hooks/use-theme';
 import { confirmAction } from '@/lib/confirm';
@@ -108,7 +108,7 @@ export default function MoreScreen() {
         <Button title="Cerrar sesión" variant="secondary" onPress={requestSignOut} />
 
         <ThemedText type="caption" themeColor="textSecondary" style={styles.center}>
-          Servidor: {API_URL}
+          Servidor: {API_URL_LABEL}
         </ThemedText>
       </ScrollView>
     </Screen>

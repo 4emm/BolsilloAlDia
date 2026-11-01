@@ -1,6 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import type { ColorValue } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { MaxContentWidth } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { useAlerts } from '@/hooks/use-finance';
 
@@ -20,33 +22,40 @@ export default function TabsLayout() {
   const urgent = alerts.filter((a) => a.severity === 'danger' || a.severity === 'warning').length;
 
   return (
-    <Tabs
-      screenOptions={{
-        headerShown: false,
-        tabBarActiveTintColor: theme.primary,
-        tabBarInactiveTintColor: theme.textSecondary,
-        tabBarStyle: { backgroundColor: theme.background, borderTopColor: theme.border },
-        tabBarLabelStyle: { fontSize: 12, fontWeight: '600' },
-      }}>
-      <Tabs.Screen name="index" options={{ title: 'Inicio', tabBarIcon: icon('home-outline', 'home') }} />
-      <Tabs.Screen
-        name="movements"
-        options={{ title: 'Movimientos', tabBarIcon: icon('receipt-outline', 'receipt') }}
-      />
-      <Tabs.Screen name="goals" options={{ title: 'Metas', tabBarIcon: icon('flag-outline', 'flag') }} />
-      <Tabs.Screen
-        name="stats"
-        options={{ title: 'Estadísticas', tabBarIcon: icon('stats-chart-outline', 'stats-chart') }}
-      />
-      <Tabs.Screen
-        name="more"
-        options={{
-          title: 'Más',
-          tabBarIcon: icon('menu-outline', 'menu'),
-          tabBarBadge: urgent > 0 ? urgent : undefined,
-          tabBarAccessibilityLabel: urgent > 0 ? `Más, ${urgent} alertas` : 'Más',
-        }}
-      />
-    </Tabs>
+    // En tablet y escritorio la app se centra con el ancho máximo (en el teléfono no cambia nada).
+    <View style={[styles.shell, { backgroundColor: theme.background }]}>
+      <Tabs
+        screenOptions={{
+          headerShown: false,
+          tabBarActiveTintColor: theme.primary,
+          tabBarInactiveTintColor: theme.textSecondary,
+          tabBarStyle: { backgroundColor: theme.background, borderTopColor: theme.border },
+          tabBarLabelStyle: { fontSize: 12, fontWeight: '600' },
+        }}>
+        <Tabs.Screen name="index" options={{ title: 'Inicio', tabBarIcon: icon('home-outline', 'home') }} />
+        <Tabs.Screen
+          name="movements"
+          options={{ title: 'Movimientos', tabBarIcon: icon('receipt-outline', 'receipt') }}
+        />
+        <Tabs.Screen name="goals" options={{ title: 'Metas', tabBarIcon: icon('flag-outline', 'flag') }} />
+        <Tabs.Screen
+          name="stats"
+          options={{ title: 'Estadísticas', tabBarIcon: icon('stats-chart-outline', 'stats-chart') }}
+        />
+        <Tabs.Screen
+          name="more"
+          options={{
+            title: 'Más',
+            tabBarIcon: icon('menu-outline', 'menu'),
+            tabBarBadge: urgent > 0 ? urgent : undefined,
+            tabBarAccessibilityLabel: urgent > 0 ? `Más, ${urgent} alertas` : 'Más',
+          }}
+        />
+      </Tabs>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  shell: { flex: 1, width: '100%', maxWidth: MaxContentWidth, alignSelf: 'center' },
+});

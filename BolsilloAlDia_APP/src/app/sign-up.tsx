@@ -4,6 +4,7 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
+  View,
   type TextInputInstance,
 } from 'react-native';
 import { Button } from '@/components/button';
@@ -48,53 +49,55 @@ export default function SignUpScreen() {
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={styles.flex}>
-        <ScrollView contentContainerStyle={styles.form} keyboardShouldPersistTaps="handled">
-          <ThemedText themeColor="textSecondary">
-            Con tu cuenta tus datos quedan respaldados y puedes usar la app en otro teléfono. Al
-            registrarte se crean categorías básicas (transporte, alimentación, materiales…).
-          </ThemedText>
-          <TextField
-            label="Nombre"
-            value={name}
-            onChangeText={setName}
-            error={errors.name}
-            autoComplete="name"
-            textContentType="name"
-            returnKeyType="next"
-            onSubmitEditing={() => emailRef.current?.focus()}
-          />
-          <TextField
-            ref={emailRef}
-            label="Correo"
-            value={email}
-            onChangeText={setEmail}
-            error={errors.email}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            autoComplete="email"
-            autoCorrect={false}
-            textContentType="emailAddress"
-            returnKeyType="next"
-            onSubmitEditing={() => passwordRef.current?.focus()}
-          />
-          <TextField
-            ref={passwordRef}
-            label="Contraseña (mínimo 6 caracteres)"
-            value={password}
-            onChangeText={setPassword}
-            error={errors.password}
-            secureTextEntry
-            autoComplete="new-password"
-            textContentType="newPassword"
-            returnKeyType="go"
-            onSubmitEditing={submit}
-          />
-          {formError ? (
-            <ThemedText accessibilityRole="alert" style={{ color: theme.danger }}>
-              {formError}
+        <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
+          <View style={styles.form}>
+            <ThemedText themeColor="textSecondary">
+              Con tu cuenta tus datos quedan respaldados y puedes usar la app en otro teléfono. Al
+              registrarte se crean categorías básicas (transporte, alimentación, materiales…).
             </ThemedText>
-          ) : null}
-          <Button title="Crear cuenta" onPress={submit} loading={loading} />
+            <TextField
+              label="Nombre"
+              value={name}
+              onChangeText={setName}
+              error={errors.name}
+              autoComplete="name"
+              textContentType="name"
+              returnKeyType="next"
+              onSubmitEditing={() => emailRef.current?.focus()}
+            />
+            <TextField
+              ref={emailRef}
+              label="Correo"
+              value={email}
+              onChangeText={setEmail}
+              error={errors.email}
+              keyboardType="email-address"
+              autoCapitalize="none"
+              autoComplete="email"
+              autoCorrect={false}
+              textContentType="emailAddress"
+              returnKeyType="next"
+              onSubmitEditing={() => passwordRef.current?.focus()}
+            />
+            <TextField
+              ref={passwordRef}
+              label="Contraseña (mínimo 6 caracteres)"
+              value={password}
+              onChangeText={setPassword}
+              error={errors.password}
+              secureTextEntry
+              autoComplete="new-password"
+              textContentType="newPassword"
+              returnKeyType="go"
+              onSubmitEditing={submit}
+            />
+            {formError ? (
+              <ThemedText accessibilityRole="alert" style={{ color: theme.danger }}>
+                {formError}
+              </ThemedText>
+            ) : null}
+            <Button title="Crear cuenta" onPress={submit} loading={loading} />
+          </View>
         </ScrollView>
       </KeyboardAvoidingView>
     </Screen>
@@ -103,5 +106,6 @@ export default function SignUpScreen() {
 
 const styles = StyleSheet.create({
   flex: { flex: 1 },
-  form: { flexGrow: 1, gap: Spacing.three, padding: Spacing.three },
+  scroll: { flexGrow: 1, padding: Spacing.three },
+  form: { width: '100%', maxWidth: 520, alignSelf: 'center', gap: Spacing.three },
 });
