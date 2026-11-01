@@ -2,7 +2,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import type { ColorValue } from 'react-native';
 import { StyleSheet, View } from 'react-native';
-import { MaxContentWidth } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { useAlerts } from '@/hooks/use-finance';
 
@@ -31,6 +30,7 @@ export default function TabsLayout() {
           tabBarInactiveTintColor: theme.textSecondary,
           tabBarStyle: { backgroundColor: theme.background, borderTopColor: theme.border },
           tabBarLabelStyle: { fontSize: 12, fontWeight: '600' },
+          sceneStyle: { backgroundColor: theme.background },
         }}>
         <Tabs.Screen name="index" options={{ title: 'Inicio', tabBarIcon: icon('home-outline', 'home') }} />
         <Tabs.Screen
@@ -57,5 +57,5 @@ export default function TabsLayout() {
 }
 
 const styles = StyleSheet.create({
-  shell: { flex: 1, width: '100%', maxWidth: MaxContentWidth, alignSelf: 'center' },
+  shell: { flex: 1, width: '100%' },
 });

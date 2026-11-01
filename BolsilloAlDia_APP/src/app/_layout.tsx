@@ -3,7 +3,8 @@ import * as SplashScreen from 'expo-splash-screen';
 import { SQLiteProvider } from 'expo-sqlite';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
-import { useColorScheme } from 'react-native';
+import { Platform, StyleSheet, View, useColorScheme } from 'react-native';
+import { Colors } from '@/constants/theme';
 import { migrateDbIfNeeded } from '@/db/migrations';
 import { AuthProvider, useAuth } from '@/providers/auth-provider';
 import { DataProvider } from '@/providers/data-provider';
@@ -13,6 +14,7 @@ SplashScreen.preventAutoHideAsync();
 
 function RootStack() {
   const { status } = useAuth();
+  const colorScheme = useColorScheme();
 
   useEffect(() => {
     if (status !== 'loading') SplashScreen.hideAsync();
@@ -22,7 +24,13 @@ function RootStack() {
   const signedIn = status === 'signedIn';
 
   return (
-    <Stack screenOptions={{ headerShown: false }}>
+    <Stack
+      screenOptions={{
+        headerShown: false,
+        // Los cambios de ruta web son inmediatos; conserva las transiciones del móvil.
+        animation: Platform.OS === 'web' ? 'none' : undefined,
+        contentStyle: { backgroundColor: colorScheme === 'dark' ? Colors.dark.background : Colors.light.background },
+      }}>
       {/* Rutas protegidas: el guard decide qué pantallas existen según la sesión.
           Al cerrar sesión se redirige solo; al iniciarla, se entra a las pestañas. */}
       <Stack.Protected guard={!signedIn}>
@@ -46,15 +54,23 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <StatusBar style="auto" />
-      {/* Orden importa: la BD se migra primero; la sesión y los datos dependen de ella. */}
-      <SQLiteProvider databaseName="bolsillo.db" onInit={migrateDbIfNeeded}>
-        <AuthProvider>
-          <DataProvider>
-            <RootStack />
-          </DataProvider>
-        </AuthProvider>
-      </SQLiteProvider>
+      <View
+        style={[
+          styles.root,
+          { backgroundColor: colorScheme === 'dark' ? Colors.dark.background : Colors.light.background },
+        ]}>
+        <StatusBar style="auto" />
+        {/* Orden importa: la BD se migra primero; la sesión y los datos dependen de ella. */}
+        <SQLiteProvider databaseName="bolsillo.db" onInit={migrateDbIfNeeded}>
+          <AuthProvider>
+            <DataProvider>
+              <RootStack />
+            </DataProvider>
+          </AuthProvider>
+        </SQLiteProvider>
+      </View>
     </ThemeProvider>
   );
 }
+
+const styles = StyleSheet.create({ root: { flex: 1, width: '100%', minHeight: '100%' } });
